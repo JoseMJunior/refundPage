@@ -8,7 +8,7 @@ const isLoading = false
 //const session = undefined
 const session = {
     user: {
-        role: "manager"
+        role: ""
     }
 }
 
