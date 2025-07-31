@@ -30,7 +30,7 @@ export function Routes() {
     
     return (
         <BrowserRouter>
-            <Route />
+            <ManagerRoutes />
         </BrowserRouter>
     );
 }
