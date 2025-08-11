@@ -8,7 +8,7 @@ import { Confirm } from "../pages/Confirm";
 
 
 
-export function EmpoyeeRoutes(){
+export function EmployeeRoutes(){
     return (
         <Routes>
             <Route path="/" element={<AppLayout/>}>

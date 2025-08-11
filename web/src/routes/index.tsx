@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router";
 import { AuthRoutes } from "./auth-routes";
-import { EmpoyeeRoutes } from "./EmployeeRoute"; 
+import { EmployeeRoutes } from "./EmployeeRoute"; 
 import { ManagerRoutes } from "./ManagerRoutes";
 import { Loading } from "../components/Loading";
 
@@ -16,7 +16,7 @@ export function Routes() {
     function Route(){
         switch (session?.user.role) {
             case "employee":
-                return <EmpoyeeRoutes/>
+                return <EmployeeRoutes/>
             case "manager":
                 return <ManagerRoutes/>
             default:
@@ -30,7 +30,7 @@ export function Routes() {
     
     return (
         <BrowserRouter>
-            <ManagerRoutes />
+            <Route />
         </BrowserRouter>
     );
 }

@@ -1,13 +1,50 @@
 import { useActionState } from "react";
+import { z, ZodError } from "zod"
+import { AxiosError } from "axios";
+
+import { api } from "../services/api";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 
+
+const signInScheme = z.object({
+    email: z.string().email({ message: "E-mail inválido"}),
+    password: z.string().trim().min(6, {message: "Informe a senha"})
+})
+
+
 export function SigIn(){
+    // estado atual - açao a ser disparada - pendete a requisicao
     const [state, formAction, isLoading] = useActionState(signIn, null)
 
     
-    function signIn(prevState: any, formData: FormData){
+    async function signIn(_: any, formData: FormData){
 
+        try {
+            const data = signInScheme.parse({
+                email: formData.get("email"),
+                password: formData.get("password")
+            })
+
+            const response = await api.post("/sessions", data)
+            console.log(response.data)
+            
+        } catch (error) {
+            
+            console.log(error)
+
+            if( error instanceof ZodError){
+                return {message: error.issues[0].message}
+            }
+
+            if( error instanceof AxiosError){
+                return {message: error.response?.data.message}
+            }
+            
+            return {message: "Nao foi possivel entrar"}
+        }
+
+        
     }
     
 
@@ -28,6 +65,10 @@ export function SigIn(){
                 type="password"
                 placeholder="senha"
             />
+
+            <p className="text-sm text-red-600 text-center my-2 font-medium">
+                {state?.message}
+            </p>
             
             <Button type="submit" isLoading={isLoading}>Entrar</Button>
 
