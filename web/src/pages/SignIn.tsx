@@ -1,10 +1,10 @@
-import { useActionState } from "react";
+import { useActionState } from "react"
 import { z, ZodError } from "zod"
-import { AxiosError } from "axios";
-
-import { api } from "../services/api";
-import { Button } from "../components/Button";
-import { Input } from "../components/Input";
+import { AxiosError } from "axios"
+import { api } from "../services/api"
+import { Button } from "../components/Button"
+import { Input } from "../components/Input"
+import { useAuth } from "../hooks/useAuth"
 
 
 const signInScheme = z.object({
@@ -17,6 +17,7 @@ export function SigIn(){
     // estado atual - açao a ser disparada - pendete a requisicao
     const [state, formAction, isLoading] = useActionState(signIn, null)
 
+    const auth = useAuth()
     
     async function signIn(_: any, formData: FormData){
 
@@ -27,7 +28,7 @@ export function SigIn(){
             })
 
             const response = await api.post("/sessions", data)
-            console.log(response.data)
+            auth.save(response.data)
             
         } catch (error) {
             
